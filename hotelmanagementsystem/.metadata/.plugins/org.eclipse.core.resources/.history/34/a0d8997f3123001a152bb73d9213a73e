@@ -1,0 +1,40 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.bean.exception.HotelManagementException;
+import com.capgemini.hotelmanagementsystem.dao.AdminEmployeeUserDao;
+
+@Repository
+public class AdminEmployeeUserDaoImpl implements AdminEmployeeUserDao {
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	@Override
+	public AdminEmployeeUserBean adminEmployeeUserLogin(String email, String password) {
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			AdminEmployeeUserBean adminEmployeeUserBean = null;
+
+			String jpql = "from AdminEmployeeUserBean where email = :email and password = :password";
+			Query query = entityManager.createQuery(jpql);
+
+			query.setParameter("email", email);
+			query.setParameter("password", password);
+
+			adminEmployeeUserBean = (AdminEmployeeUserBean) query.getSingleResult();
+			return adminEmployeeUserBean;
+		} catch (Exception e) {
+			throw new HotelManagementException("Unable to Login..Please try agian");
+		}
+
+	}// end of adminEmployeeUserLogin()
+
+}// end of class

@@ -1,0 +1,25 @@
+package com.capgemini.hotelmanagementsystem.validation;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class RegExCheck {
+
+	public static void main(String[] args) {
+		String regEx = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
+		String password = "aA@1a1";
+		
+		Pattern pattern = Pattern.compile(regEx);
+		Matcher matcher = pattern.matcher(password);
+		System.out.println(matcher.matches());
+		System.out.println(Pattern.matches(regEx, password));
+		
+		/*
+		 * Pattern pattern1 = Pattern.compile(regEx1); Matcher matcher1 =
+		 * pattern.matcher(password); System.out.println(matcher1.matches());
+		 * System.out.println(Pattern.matches(regEx1, password));
+		 */
+		
+	}
+
+}

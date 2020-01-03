@@ -1,0 +1,46 @@
+package com.capgemini.hotelmanagementsystem.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.response.HotelManagementResponse;
+import com.capgemini.hotelmanagementsystem.service.AdminEmployeeUserService;
+
+@RestController
+//@CrossOrigin(origins = "http://localhost:4200")
+public class AdminEmployeeUserController {
+
+	@Autowired
+	private AdminEmployeeUserService adminEmployeeUserService;
+
+	// .............................AdminEmployeeUserLogin....................................//
+
+	@PostMapping(path = "/adminEmployeeUserLogin", produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
+	public HotelManagementResponse adminEmployeeUserLogin(@RequestBody AdminEmployeeUserBean adminEmployeeUserBean) {
+		String email = adminEmployeeUserBean.getEmail();
+		String password = adminEmployeeUserBean.getPassword();
+
+		AdminEmployeeUserBean adminEmployeeUserBean1 = adminEmployeeUserService.adminEmployeeUserLogin(email, password);
+		HotelManagementResponse hotelManagementResponse = new HotelManagementResponse();
+
+		if (adminEmployeeUserBean1 != null) {
+			hotelManagementResponse.setStatusCode(200);
+			hotelManagementResponse.setMessage("success");
+			hotelManagementResponse.setDescription(adminEmployeeUserBean1.getEmail() + " Login successfully");
+			hotelManagementResponse.setType(adminEmployeeUserBean1.getType());
+
+		} else {
+			hotelManagementResponse.setStatusCode(400);
+			hotelManagementResponse.setMessage("fail");
+			hotelManagementResponse.setDescription("Enter correct Email Id or Password");
+		}
+		return hotelManagementResponse;
+	}// end of adminEmployeeUserLogin()
+
+}// end of class

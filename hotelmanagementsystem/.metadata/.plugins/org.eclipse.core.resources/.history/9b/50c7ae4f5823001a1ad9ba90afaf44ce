@@ -1,0 +1,37 @@
+package com.capgemini.hotelmanagementsystem.serviceimpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.dao.AdminEmployeeUserDao;
+import com.capgemini.hotelmanagementsystem.service.AdminEmployeeUserService;
+import com.capgemini.hotelmanagementsystem.validation.ValidationDao;
+
+@Service
+public class AdminEmployeeUserServiceImpl implements AdminEmployeeUserService {
+
+	@Autowired
+	private AdminEmployeeUserDao adminEmployeeUserDao;
+
+	@Autowired
+	private ValidationDao validationDao;
+
+	@Override
+	public AdminEmployeeUserBean adminEmployeeUserLogin(String email, String password) {
+		if (validationDao.emailValidation(email)) {
+
+			System.out.println("......................inside email...........................");
+//			if (validationDao.passwordValidation(password)) {
+				System.out.println("......................inside password...........................");
+				return adminEmployeeUserDao.adminEmployeeUserLogin(email, password);
+//			} else {
+//				System.out.println("......................outside password code...........................");
+//				return null;
+//			}
+		} else {
+			System.out.println("......................outside email code...........................");
+			return null;
+		}
+	}// end of adminEmployeeUserLogin
+}// end of class

@@ -1,0 +1,5 @@
+package com.capgemini.hotelmanagementsystem.bean;
+
+public class BookingInformationBean {
+
+}

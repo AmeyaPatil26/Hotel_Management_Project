@@ -1,0 +1,15 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.dao.UserOperationDao;
+
+@Repository
+public class UserOperationDaoImpl implements UserOperationDao{
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+}// end of class

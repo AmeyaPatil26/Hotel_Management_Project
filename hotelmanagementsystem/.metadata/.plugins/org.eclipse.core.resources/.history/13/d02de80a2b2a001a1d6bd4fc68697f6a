@@ -1,0 +1,68 @@
+package com.capgemini.hotelmanagementsystem.stepdefination;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import cucumber.api.PendingException;
+import cucumber.api.java.en.When;
+
+public class AdminStepDefination {
+
+	static {
+		System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
+	}
+	WebDriver driver = new ChromeDriver();
+
+	@When("^admin Click on Login Link$")
+	public void admin_Click_on_Login_Link() throws Throwable {
+		driver.get("http://localhost:4200/login");
+		Thread.sleep(3000);
+	}
+
+	@When("^admin Enter the valid Login Data$")
+	public void admin_Enter_the_valid_Login_Data() throws Throwable {
+		driver.findElement(By.name("email")).sendKeys("admin@gmail.com");
+		driver.findElement(By.name("password")).sendKeys("Admin@123");
+		Thread.sleep(3000);
+
+	}
+
+	@When("^admin Click on Login button$")
+	public void admin_Click_on_Login_button() throws Throwable {
+		driver.findElement(By.xpath("/html/body/app-root/app-login/div/div/form/div[3]/button[1]")).click();
+		Thread.sleep(6000);
+	
+	}
+
+	@When("^admin Click on hotel list button$")
+	public void admin_Click_on_hotel_list_button() throws Throwable {
+		driver.findElement(By.xpath("/html/body/app-root/app-vertical-header/mat-sidenav-container/mat-sidenav/div/mat-nav-list/a[1]/div")).click();
+		Thread.sleep(6000);
+	}
+	
+	@When("^admin Click on add hotel button$")
+	public void admin_Click_on_add_hotel_button() throws Throwable {
+		driver.findElement(By.xpath("/html/body/app-root/app-vertical-header/mat-sidenav-container/mat-sidenav/div/mat-nav-list/a[2]/div")).click();
+		Thread.sleep(6000);
+		
+//		driver.findElement(By.name("name")).sendKeys("Komal Gunaki");
+//		driver.findElement(By.name("contactNumber")).sendKeys("7887959912");
+//		driver.findElement(By.name("email")).sendKeys("komal@gmail.com");
+//		driver.findElement(By.name("password")).sendKeys("Komal@123");
+//		driver.findElement(By.name("address")).sendKeys("New Delhi");
+//		driver.findElement(By.name("nationality")).sendKeys("Algeria");
+	}
+
+	@When("^admin Click on room list button$")
+	public void admin_Click_on_room_list_button() throws Throwable {
+		driver.findElement(By.xpath("/html/body/app-root/app-vertical-header/mat-sidenav-container/mat-sidenav/div/mat-nav-list/a[3]/div")).click();
+		Thread.sleep(6000);
+	}
+
+	@When("^admin Click on employee list button$")
+	public void admin_Click_on_employee_list_button() throws Throwable {
+		driver.findElement(By.xpath("/html/body/app-root/app-vertical-header/mat-sidenav-container/mat-sidenav/div/mat-nav-list/a[5]/div")).click();
+		Thread.sleep(6000);
+	}
+}

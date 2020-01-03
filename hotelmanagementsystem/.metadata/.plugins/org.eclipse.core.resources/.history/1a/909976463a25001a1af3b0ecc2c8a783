@@ -1,0 +1,5 @@
+package com.capgemini.hotelmanagementsystem.dao;
+
+public interface RoomInformationDao {
+
+}

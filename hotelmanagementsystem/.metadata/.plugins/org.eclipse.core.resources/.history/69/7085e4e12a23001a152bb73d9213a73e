@@ -1,0 +1,5 @@
+package com.capgemini.hotelmanagementsystem.config;
+
+public class HotelManagementConfig {
+
+}

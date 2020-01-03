@@ -1,0 +1,5 @@
+package com.capgemini.hotelmanagementsystem.bean.exception;
+
+public class HotelManagementException {
+
+}

@@ -1,0 +1,10 @@
+package com.capgemini.hotelmanagementsystem.dao;
+
+import java.util.List;
+
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+
+public interface EmployeeOperationDao {
+	
+	public HotelInformationBean getHotelInformation();
+}// end of interface

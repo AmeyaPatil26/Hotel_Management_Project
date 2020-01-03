@@ -1,0 +1,82 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.bean.exception.HotelManagementException;
+import com.capgemini.hotelmanagementsystem.dao.AdminEmployeeUserDao;
+
+@Repository
+public class AdminEmployeeUserDaoImpl implements AdminEmployeeUserDao {
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	@Override
+	public AdminEmployeeUserBean adminEmployeeUserLogin(String email, String password) {
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			AdminEmployeeUserBean adminEmployeeUserBean = null;
+
+			String jpql = "from AdminEmployeeUserBean where email = :email and password = :password";
+			Query query = entityManager.createQuery(jpql);
+
+			query.setParameter("email", email);
+			query.setParameter("password", password);
+
+			adminEmployeeUserBean = (AdminEmployeeUserBean) query.getSingleResult();
+			return adminEmployeeUserBean;
+		} catch (Exception e) {
+			// throw new HotelManagementException("Unable to Login..Please try agian");
+			return null;
+		}
+	}// end of adminEmployeeUserLogin()
+
+	@Override
+	public AdminEmployeeUserBean userRegister(AdminEmployeeUserBean adminEmployeeUserBean) {
+
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			EntityTransaction entityTransaction = entityManager.getTransaction();
+
+			entityTransaction.begin();
+			entityManager.persist(adminEmployeeUserBean);
+			entityTransaction.commit();
+
+			return adminEmployeeUserBean;
+
+		} catch (Exception e) {
+			return null;
+		}
+
+	}// end of userRegister()
+
+	@Override
+	public boolean checkUserEmail(String email) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+		String jpql = "from AdminEmployeeUserBean";
+		Query query = entityManager.createQuery(jpql);
+		List<AdminEmployeeUserBean> userEmailList = query.getResultList();
+
+		for (AdminEmployeeUserBean UserEmail : userEmailList) {
+
+			if (email.equals(UserEmail.getEmail())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	
+
+}// end of class

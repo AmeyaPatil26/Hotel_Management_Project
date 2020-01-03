@@ -1,0 +1,8 @@
+package com.capgemini.hotelmanagementsystem.service;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+
+public interface AdminEmployeeUserService {
+
+	public AdminEmployeeUserBean adminEmployeeUserLogin(String email, String password);
+}// end of interface

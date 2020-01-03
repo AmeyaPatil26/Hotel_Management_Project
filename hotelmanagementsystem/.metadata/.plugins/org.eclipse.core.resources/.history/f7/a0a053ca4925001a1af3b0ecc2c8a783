@@ -1,0 +1,5 @@
+package com.capgemini.hotelmanagementsystem.validation;
+
+public interface UserValidation {
+
+}

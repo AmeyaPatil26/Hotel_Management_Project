@@ -1,0 +1,8 @@
+package com.capgemini.hotelmanagementsystem.dao;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+
+public interface AdminEmployeeUserDao {
+
+	public AdminEmployeeUserBean adminEmployeeUserLogin(String email, String password);
+}// end of interface

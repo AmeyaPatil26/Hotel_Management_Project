@@ -1,0 +1,69 @@
+package com.capgemini.hotelmanagementsystem.service;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.capgemini.hotelmanagementsystem.beans.AdminEmployeeUserBean;
+
+import junit.framework.TestCase;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class AdminEmployeeUserServiceTest {
+	@Autowired
+	private AdminEmployeeUserServiceImpl adminEmployeeUserServiceImpl;
+	
+	@Test
+	// Valid test getLogin()
+	public void testGetLogin() {
+		AdminEmployeeUserBean adminEmployeeUserBean = new AdminEmployeeUserBean();
+		adminEmployeeUserBean.setEmail("admin@gmail.com");
+		adminEmployeeUserBean.setPassword("Admin@123");
+		TestCase.assertNotNull(adminEmployeeUserServiceImpl.userProfile(adminEmployeeUserBean));
+
+	}
+	
+	@Test
+	//Invalid test getLogin
+	public void testInvalidGetLogin() {
+		AdminEmployeeUserBean adminEmployeeUserBean = new AdminEmployeeUserBean();
+		adminEmployeeUserBean.setEmail("admin@gmail.com");
+		adminEmployeeUserBean.setPassword("Admin@123");
+		TestCase.assertNotNull(adminEmployeeUserServiceImpl.userProfile(adminEmployeeUserBean));
+
+	}
+	
+	
+//	@Test
+//	//Valid test userRegister()
+//	public void testUserRegister() {
+//		AdminEmployeeUserBean adminEmployeeUserBean = new AdminEmployeeUserBean();
+//		adminEmployeeUserBean.setAddress("Mumbai");
+//		adminEmployeeUserBean.setContactNumber("9012345678");
+//		adminEmployeeUserBean.setEmail("sanju1@gmail.com");
+//		adminEmployeeUserBean.setName("Xyz Abcd");
+//		adminEmployeeUserBean.setNationality("Indian");
+//		adminEmployeeUserBean.setPassword("Qwerty123");
+//		adminEmployeeUserBean.setType("User");
+//		
+//		TestCase.assertNotNull(adminEmployeeUserServiceImpl.userRegister(adminEmployeeUserBean));
+//		
+//	}//End of testUserRegister()
+	@Test
+	//Invalid test userRegister
+	public void testInvalidUserRegister() {
+		AdminEmployeeUserBean adminEmployeeUserBean = new AdminEmployeeUserBean();
+		adminEmployeeUserBean.setAddress("Mumbai");
+		adminEmployeeUserBean.setContactNumber("9012345678");
+		adminEmployeeUserBean.setName("Xyz Abcd");
+		adminEmployeeUserBean.setNationality("Indian");
+		adminEmployeeUserBean.setType("User");
+		
+		TestCase.assertNull(adminEmployeeUserServiceImpl.userRegister(adminEmployeeUserBean));
+
+	}
+	
+}

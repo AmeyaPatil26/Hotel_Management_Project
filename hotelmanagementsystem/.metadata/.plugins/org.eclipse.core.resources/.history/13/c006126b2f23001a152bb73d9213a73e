@@ -1,0 +1,6 @@
+package com.capgemini.hotelmanagementsystem.controller;
+
+public class AdminEmployeeUserController {
+	
+	
+}// end of class

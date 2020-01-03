@@ -1,0 +1,59 @@
+package com.capgemini.hotelmanagementsystem.serviceimpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.dao.AdminEmployeeUserDao;
+import com.capgemini.hotelmanagementsystem.service.AdminEmployeeUserService;
+import com.capgemini.hotelmanagementsystem.validation.HotelValidationDao;
+
+@Service
+public class AdminEmployeeUserServiceImpl implements AdminEmployeeUserService {
+
+	@Autowired
+	private AdminEmployeeUserDao adminEmployeeUserDao;
+
+	@Autowired
+	private HotelValidationDao validationDao;
+
+	@Override
+	public AdminEmployeeUserBean adminEmployeeUserLogin(String email, String password) {
+		if (validationDao.emailValidation(email)) {
+
+			if (validationDao.passwordValidation(password)) {
+				return adminEmployeeUserDao.adminEmployeeUserLogin(email, password);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}// end of adminEmployeeUserLogin
+
+	@Override
+	public AdminEmployeeUserBean userRegister(AdminEmployeeUserBean adminEmployeeUserBean) {
+		String email = adminEmployeeUserBean.getEmail();
+		String password = adminEmployeeUserBean.getPassword();
+		if (validationDao.emailValidation(email)) {
+			if (validationDao.passwordValidation(password)) {
+				return adminEmployeeUserDao.userRegister(adminEmployeeUserBean);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}// end of userRegister()
+
+	@Override
+	public boolean checkUserEmail(String email) {
+		return adminEmployeeUserDao.checkUserEmail(email);
+	}// end of checkUserEmail
+
+	@Override
+	public AdminEmployeeUserBean userProfile(AdminEmployeeUserBean adminEmployeeUserBean) {
+		return adminEmployeeUserDao.userProfile(adminEmployeeUserBean);
+	}
+
+}// end of class

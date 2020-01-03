@@ -1,0 +1,30 @@
+1577074280958	Delete element
+1577077789661	Delete element
+1577077795264	Delete element
+1577077800082	Delete element
+1577077807088	Delete element
+1577077812905	Delete element
+1577079505045	Rename type 'ValidationDao'
+1577079554990	Delete element
+1577079603800	Rename type 'ValidationDaoImpl'
+1577080089362	Rename type 'HotelManagementException'
+1577102471713	Delete element
+1577444074565	Rename local variable 'password'
+1577514440191	Rename package 'com.capgemini.hotelmanagementsystem.bean.exception'
+1577521623941	Move compilation unit
+1577521656257	Move compilation unit
+1577521675044	Move compilation unit
+1577521684277	Move compilation unit
+1577521698199	Delete element
+1577522001475	Delete element
+1577522004877	Delete element
+1577522022334	Rename type 'HotelValidationDao'
+1577522042008	Rename type 'HotelValidationDaoImpl'
+1577522066262	Delete element
+1577522069764	Delete element
+1577522074291	Delete element
+1577522243773	Move compilation unit
+1577522259658	Move compilation unit
+1577522265032	Move compilation unit
+1577522270371	Move compilation unit
+1577522300142	Delete element

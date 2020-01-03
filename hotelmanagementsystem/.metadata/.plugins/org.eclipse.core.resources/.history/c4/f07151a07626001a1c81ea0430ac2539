@@ -1,0 +1,84 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.bean.BookingInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.RoomInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.exception.HotelManagementSystemException;
+import com.capgemini.hotelmanagementsystem.dao.EmployeeOperationDao;
+
+@Repository
+public class EmployeeOperationDaoImpl implements EmployeeOperationDao {
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	@Override
+	public HotelInformationBean getHotelInformation(AdminEmployeeUserBean adminEmployeeUserBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		System.out.println(".........email"+adminEmployeeUserBean.getEmail());
+		String jpqlForLicenceNumber = "from EmployeeInformationBean where email=:email";
+		String jpql = "from HotelInformationBean where licenceNumber=:licenceNumber";
+		HotelInformationBean hotelInfo = null;
+		try {
+		
+			Query queryForLicenceNumber = entityManager.createQuery(jpqlForLicenceNumber);
+			queryForLicenceNumber.setParameter("email", adminEmployeeUserBean.getEmail());
+			String licenceNumber = (String) queryForLicenceNumber.getSingleResult();
+			System.out.println(".........licenceNumber"+licenceNumber);
+			
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("licenceNumber", licenceNumber);
+			hotelInfo = (HotelInformationBean) query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			//throw new HotelManagementSystemException("Something went wrong... hotel not found");
+		}
+		return hotelInfo;
+
+	}// end of getHotelInformation()
+
+	@Override
+	public List<RoomInformationBean> getRoomList(AdminEmployeeUserBean adminEmployeeUserBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "from RoomInformationBean where licenceNumber=:licenceNumber";
+		String jpql1 = "from AdminEmployeeUserBean where email=:email";
+		List<RoomInformationBean> roomlList = null;
+		try {
+			Query query = entityManager.createQuery(jpql);
+			Query query1 = entityManager.createQuery(jpql1);
+			String licenceNumber = (String) query1.getSingleResult();
+			query.setParameter("licenceNumber", licenceNumber);
+			roomlList = query.getResultList();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... room list not found");
+		}
+		return roomlList;
+
+	}// end of getRoomList()
+
+	@Override
+	public BookingInformationBean bookUser(BookingInformationBean bookingInformationBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+			transaction.begin();
+			entityManager.persist(bookingInformationBean);
+			transaction.commit();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong...cant book room now");
+		}
+		return bookingInformationBean;
+	}
+
+}// end of class

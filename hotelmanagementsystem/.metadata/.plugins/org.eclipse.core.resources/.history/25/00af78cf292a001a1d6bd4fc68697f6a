@@ -1,0 +1,20 @@
+Feature: Testing Admin Portal 
+
+#Scenario: Admin login
+#	Given Open the chrome and launch the application 
+#	When admin Click on Login Link 
+#	When admin Enter the valid Login Data 
+#	And admin Click on Login button 
+
+
+Scenario: Admin login 
+Given Open the chrome and launch the application 
+When admin Click on Login Link 
+When admin Enter the valid Login Data 
+And admin Click on Login button 
+And admin Click on hotel list button
+And admin Click on add hotel button
+And admin click on update
+And admin click on delete
+And admin Click on room list button
+And admin Click on employee list button

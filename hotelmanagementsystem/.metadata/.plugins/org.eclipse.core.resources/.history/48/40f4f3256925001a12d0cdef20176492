@@ -1,0 +1,10 @@
+package com.capgemini.hotelmanagementsystem.service;
+
+import java.util.List;
+
+import com.capgemini.hotelmanagementsystem.bean.RoomInformationBean;
+
+public interface EmployeeOperationService {
+
+	public List<RoomInformationBean> getRoomList(String licenceNumber);
+}// end of interface

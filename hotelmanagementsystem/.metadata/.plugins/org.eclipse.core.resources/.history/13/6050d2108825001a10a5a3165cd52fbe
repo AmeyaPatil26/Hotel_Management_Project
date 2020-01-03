@@ -1,0 +1,62 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.bean.BookingInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.RoomInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.exception.HotelManagementSystemException;
+import com.capgemini.hotelmanagementsystem.dao.UserOperationDao;
+
+@Repository
+public class UserOperationDaoImpl implements UserOperationDao {
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	@Override
+	public AdminEmployeeUserBean userProfile(AdminEmployeeUserBean adminEmployeeUserBean) {
+
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "from AdminEmployeeUserBean where email=:email";
+		HotelInformationBean hotelInfo = null;
+		try {
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("email", adminEmployeeUserBean.getEmail());
+			AdminEmployeeUserBean userProfile = (AdminEmployeeUserBean) query.getSingleResult();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... profile not found");
+		}
+		return userProfile;
+	}
+
+	@Override
+	public AdminEmployeeUserBean updateUserProfile(AdminEmployeeUserBean adminEmployeeUserBean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HotelInformationBean hotelList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RoomInformationBean roomList(String licenceNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookingInformationBean bookRoomUser(BookingInformationBean bookingInformationBean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}// end of class

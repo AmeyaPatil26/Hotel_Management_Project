@@ -1,0 +1,6 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+public class EmployeeOperationDaoImpl {
+
+	
+}// end of class

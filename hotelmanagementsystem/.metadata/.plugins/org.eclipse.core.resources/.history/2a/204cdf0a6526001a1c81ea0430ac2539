@@ -1,0 +1,107 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.bean.BookingInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.RoomInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.exception.HotelManagementSystemException;
+import com.capgemini.hotelmanagementsystem.dao.UserOperationDao;
+
+@Repository
+public class UserOperationDaoImpl implements UserOperationDao {
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	@Override
+	public AdminEmployeeUserBean userProfile(AdminEmployeeUserBean adminEmployeeUserBean) {
+		
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "from AdminEmployeeUserBean where email=:email";
+		AdminEmployeeUserBean userProfile = null;
+		try {
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("email", adminEmployeeUserBean.getEmail());
+			userProfile = (AdminEmployeeUserBean) query.getSingleResult();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... profile not found");
+		}
+		return userProfile;
+	}
+
+	@Override
+	public AdminEmployeeUserBean updateUserProfile(AdminEmployeeUserBean adminEmployeeUserBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		AdminEmployeeUserBean adminEmployeeUserBean1 = entityManager.find(AdminEmployeeUserBean.class,
+				adminEmployeeUserBean.getId());
+		// boolean isUpdated = false;
+		if (adminEmployeeUserBean1 != null) {
+			String name = adminEmployeeUserBean.getName();
+			if (name != null) {
+				adminEmployeeUserBean1.setName(name);
+			}
+			String address = adminEmployeeUserBean.getAddress();
+
+			if (address != null) {
+				adminEmployeeUserBean1.setAddress(address);
+			}
+
+			String email = adminEmployeeUserBean.getEmail();
+			if (email != null) {
+				adminEmployeeUserBean1.setEmail(email);
+			}
+			String contactNumber = adminEmployeeUserBean.getContactNumber();
+			if (contactNumber != null) {
+				adminEmployeeUserBean1.setContactNumber(contactNumber);
+
+			}
+			String password = adminEmployeeUserBean.getPassword();
+			if (password != null) {
+				adminEmployeeUserBean1.setPassword(password);
+			}
+			String nationality = adminEmployeeUserBean.getNationality();
+			if (nationality != null) {
+				adminEmployeeUserBean1.setNationality(nationality);
+			}
+
+		}
+		try {
+			transaction.begin();
+			entityManager.persist(adminEmployeeUserBean1);
+			transaction.commit();
+			// isUpdated = true;
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... user can't be updated");
+		}
+		entityManager.close();
+		return adminEmployeeUserBean1;
+
+	}
+
+	@Override
+	public HotelInformationBean hotelList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RoomInformationBean roomList(String licenceNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookingInformationBean bookRoomUser(BookingInformationBean bookingInformationBean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}// end of class

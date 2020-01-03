@@ -1,0 +1,42 @@
+package com.capgemini.hotelmanagementsystem.serviceimpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.capgemini.hotelmanagementsystem.bean.BookingInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.RoomInformationBean;
+import com.capgemini.hotelmanagementsystem.dao.AdminOperationDao;
+import com.capgemini.hotelmanagementsystem.dao.EmployeeOperationDao;
+import com.capgemini.hotelmanagementsystem.service.EmployeeOperationService;
+import com.capgemini.hotelmanagementsystem.validation.UserValidationDaoImpl;
+
+@Service
+public class EmployeeOperationServiceImpl implements EmployeeOperationService {
+
+	@Autowired
+	private EmployeeOperationDao employeeOperationDao;
+
+	UserValidationDaoImpl userValidation = new UserValidationDaoImpl();
+
+	@Override
+	public List<RoomInformationBean> getRoomList(String licenceNumber) {
+		return employeeOperationDao.getRoomList(licenceNumber);
+	}
+
+	@Override
+	public HotelInformationBean getHotelInformation(String licenceNumber) {
+		return employeeOperationDao.getHotelInformation(licenceNumber);
+	}
+
+	@Override
+	public BookingInformationBean bookUser(BookingInformationBean bookingInformationBean) {
+		if (userValidation.nameValidation(bookingInformationBean.getName())
+				&& userValidation.emailValidation(bookingInformationBean.getEmail())) {
+			return employeeOperationDao.bookUser(bookingInformationBean);
+		}
+		return null;
+	}
+}// end of class

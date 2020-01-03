@@ -1,0 +1,48 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.RoomInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.exception.HotelManagementSystemException;
+import com.capgemini.hotelmanagementsystem.dao.EmployeeOperationDao;
+
+@Repository
+public class EmployeeOperationDaoImpl implements EmployeeOperationDao{
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	@Override
+	public HotelInformationBean getHotelInformation() {
+		return null;
+	}
+
+	@Override
+	public List<RoomInformationBean> getRoomList(String licenceNumber) {
+		System.out.println(".................."+licenceNumber);
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "from RoomInformationBean where licenceNumber=:licenceNumber";
+		// Query query = entityManager.createQuery(jpql);
+		List<RoomInformationBean> roomlList = null;
+		try {
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("licenceNumber", licenceNumber);
+			roomlList = query.getResultList();
+		} catch (Exception e) {
+			//throw new HotelManagementSystemException("Something went wrong... room list not found");
+			e.printStackTrace();
+		}
+		return roomlList;
+		
+	}
+	
+	
+}// end of class

@@ -1,0 +1,103 @@
+package com.capgemini.hotelmanagementsystem.service;
+
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.capgemini.hotelmanagementsystem.beans.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.beans.BookingInformationBean;
+import com.capgemini.hotelmanagementsystem.beans.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.beans.RoomInformationBean;
+import com.capgemini.hotelmanagementsystem.exception.HotelManagementSystemException;
+
+import junit.framework.TestCase;
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class EmployeeOperationServiceTest {
+	@Autowired
+	private EmployeeOperationServiceImpl employeeOperationService;
+	
+	@Test // Valid test getRoomList()
+	public void testGetRoomList() {
+		AdminEmployeeUserBean employeeBean = new AdminEmployeeUserBean();
+		employeeBean.setEmail("employee123@qwerty.com");
+		TestCase.assertNotNull(employeeOperationService.getRoomList(employeeBean));
+		
+	}
+
+	@Test(expected = HotelManagementSystemException.class) // Invalid test getRoomList()
+	public void testInvalidGetRoomList() {
+		AdminEmployeeUserBean employeeBean = new AdminEmployeeUserBean();
+		employeeBean.setEmail("empl@qwerty.com");
+		List<RoomInformationBean> roomList = employeeOperationService.getRoomList(employeeBean);
+		assertEquals(true,roomList.isEmpty());
+	}
+	
+	@Test 
+	public void testGetHotelInformation() {
+			AdminEmployeeUserBean employeeBean = new AdminEmployeeUserBean();
+			employeeBean.setEmail("employee123@qwerty.com");
+			TestCase.assertNotNull(employeeOperationService.getHotelInformation(employeeBean));
+	}
+
+	@Test(expected = HotelManagementSystemException.class)
+	public void testInvalidGetHotelInformation() {
+		AdminEmployeeUserBean employeeBean = new AdminEmployeeUserBean();
+		employeeBean.setEmail("emplo@qwerty.com");
+		TestCase.assertNull(employeeOperationService.getHotelInformation(employeeBean));
+	}// End of testGetHotelInformation()
+
+	
+	// Valid test book user()
+//	@Test  (expected = NullPointerException.class) 
+//	public void testBookUser() throws ParseException {
+//		BookingInformationBean bookingDetails = new BookingInformationBean();
+//		bookingDetails.setAddress("Mumbai");
+//		bookingDetails.setBookingAmount(2000);
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//		bookingDetails.setCheckInDate(format.parse("2019-12-27"));
+//		bookingDetails.setCheckOutDate(format.parse("2019-12-29"));
+//		bookingDetails.setContactNumber("9876543210");
+//		bookingDetails.setEmail("abcd@gmail.com");
+//		bookingDetails.setHotelName("Qwerty Hotel");
+//		bookingDetails.setLicenceNumber("H00000001");
+//		bookingDetails.setName("Abcd Efgh");
+//		bookingDetails.setNationality("Indian");
+//		bookingDetails.setRoomCapacity("Single Bed");
+//		bookingDetails.setRoomType("Non-AC");
+//
+//		TestCase.assertNotNull(employeeOperationService.bookUser(bookingDetails));
+//	}
+
+	// Invalid test bookUser()
+	@Test(expected = NullPointerException.class)
+	public void testInvalidBookUser() throws ParseException {
+		BookingInformationBean bookingDetails = new BookingInformationBean();
+		bookingDetails.setAddress("Mumbai");
+		bookingDetails.setBookingAmount(2000);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		bookingDetails.setCheckInDate(format.parse("2019-12-27"));
+		bookingDetails.setCheckOutDate(format.parse("2019-12-29"));
+		bookingDetails.setContactNumber("9876543210");
+		bookingDetails.setEmail("abcd@gmail.com");
+		bookingDetails.setHotelName("Qwerty");
+		bookingDetails.setLicenceNumber("H00");
+		bookingDetails.setName("Abcd Efgh");
+		bookingDetails.setNationality("Indian");
+		bookingDetails.setRoomCapacity("Single Bed");
+		bookingDetails.setRoomType("AC");
+
+		TestCase.assertNull(employeeOperationService.bookUser(bookingDetails));
+	}
+	
+}

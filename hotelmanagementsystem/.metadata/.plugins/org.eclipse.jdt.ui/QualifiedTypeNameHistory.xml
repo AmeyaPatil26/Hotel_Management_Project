@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.validation.Valid"/>
+<fullyQualifiedTypeName name="org.springframework.validation.annotation.Validated"/>
+<fullyQualifiedTypeName name="javax.validation.constraints.Pattern"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.dao.HotelInformationDao"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.service.HotelInformationService"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="javax.persistence.Entity"/>
+<fullyQualifiedTypeName name="javax.persistence.Table"/>
+<fullyQualifiedTypeName name="javax.persistence.Query"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.dao.AdminOperationDao"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.bean.exception.HotelManagementSystemException"/>
+<fullyQualifiedTypeName name="org.springframework.http.MediaType"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.dao.EmployeeOperationDao"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.service.EmployeeOperationService"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.service.AdminOperationService"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.service.UserOperationService"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.dao.UserOperationDao"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
+<fullyQualifiedTypeName name="javax.persistence.Column"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.bean.HotelInformationBean"/>
+<fullyQualifiedTypeName name="java.time.LocalDate"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.bean.EmployeeInformationBean"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.bean.RoomInformationBean"/>
+<fullyQualifiedTypeName name="java.util.regex.Pattern"/>
+<fullyQualifiedTypeName name="java.util.regex.Matcher"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.bean.BookingInformationBean"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.validation.HotelValidationImpl"/>
+<fullyQualifiedTypeName name="com.capgemini.hotelmanagementsystem.exception.HotelManagementSystemException"/>
+<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+</qualifiedTypeNameHistroy>

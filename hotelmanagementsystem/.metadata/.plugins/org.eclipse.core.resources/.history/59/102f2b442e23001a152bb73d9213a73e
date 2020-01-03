@@ -1,0 +1,22 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.dao.AdminEmployeeUserDao;
+
+@Repository
+public class AdminEmployeeUserDaoImpl implements AdminEmployeeUserDao {
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	@Override
+	public AdminEmployeeUserBean adminEmployeeUserLogin(String email, String password) {
+		return null;
+	}
+
+}// end of class

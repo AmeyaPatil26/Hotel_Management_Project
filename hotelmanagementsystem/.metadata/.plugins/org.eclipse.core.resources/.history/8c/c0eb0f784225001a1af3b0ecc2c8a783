@@ -1,0 +1,229 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.RoomInformationBean;
+import com.capgemini.hotelmanagementsystem.dao.HotelInformationDao;
+
+@Repository
+public class HotelInformationDaoImpl implements HotelInformationDao {
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	@Override
+	public HotelInformationBean addHotelInformation(HotelInformationBean hotelInformationBean) {
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			EntityTransaction entityTransaction = entityManager.getTransaction();
+
+			entityTransaction.begin();
+			entityManager.persist(hotelInformationBean);
+			entityTransaction.commit();
+			entityManager.close();
+			return hotelInformationBean;
+		} catch (Exception e) {
+			return null;
+		}
+
+	}// end of addHotelInformation()
+
+	@Override
+	public boolean checkHotelLienceNumber(String hotelLicenceNumber) {
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+			String jpql = "from HotelInformationBean";
+			Query query = entityManager.createQuery(jpql);
+			List<HotelInformationBean> hotelInformationBeanList = query.getResultList();
+
+			for (HotelInformationBean LicenceNumber : hotelInformationBeanList) {
+
+				if (hotelLicenceNumber.equals(LicenceNumber.getHotelLicenceNumber())) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}// end of checkHotelLienceNumber()
+
+	@Override
+	public HotelInformationBean updateHotelInformation(HotelInformationBean hotelInformationBean) {
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			EntityTransaction entityTransaction = entityManager.getTransaction();
+
+			entityTransaction.begin();
+			HotelInformationBean hotelInformationBean1 = entityManager.find(HotelInformationBean.class,
+					hotelInformationBean.getHotelId());
+			if (hotelInformationBean1 != null) {
+
+				if (hotelInformationBean.getHotelLicenceNumber() != null) {
+					hotelInformationBean1.setHotelLicenceNumber(hotelInformationBean.getHotelLicenceNumber());
+				}
+				if (hotelInformationBean.getHotelAddress() != null) {
+					hotelInformationBean1.setHotelAddress(hotelInformationBean.getHotelAddress());
+				}
+				if (hotelInformationBean.getHotelContactNumber() != null) {
+					hotelInformationBean1.setHotelContactNumber(hotelInformationBean.getHotelContactNumber());
+				}
+				if (hotelInformationBean.getHotelName() != null) {
+					hotelInformationBean1.setHotelName(hotelInformationBean.getHotelName());
+				}
+
+			}
+
+			entityManager.persist(hotelInformationBean1);
+			entityTransaction.commit();
+			entityManager.close();
+			return hotelInformationBean1;
+		} catch (Exception e) {
+			return null;
+		}
+
+	}// end of updateHotelInformation()
+
+	@Override
+	public boolean deleteHotelInformation(int HotelId) {
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			HotelInformationBean hotelInformationBean = null;
+
+			EntityTransaction entityTransaction = entityManager.getTransaction();
+			entityTransaction.begin();
+			hotelInformationBean = entityManager.find(HotelInformationBean.class, HotelId);
+			entityManager.remove(hotelInformationBean);
+			entityTransaction.commit();
+
+			entityManager.close();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}// end of deleteHotelInformation()
+
+	@Override
+	public RoomInformationBean addRoom(RoomInformationBean roomBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		String jpql = "from HotelInformationBean where licenseNumber =: hotelLicense";
+		Query query = entityManager.createQuery(jpql);
+		query.setParameter("hotelLicense", roomBean.getHotelLicense());
+		HotelInformationBean hotelInformation = (HotelInformationBean) query.getSingleResult();
+		roomBean.setHotelId(hotelInformation.getHotelId());
+		try {
+			transaction.begin();
+			entityManager.persist(roomBean);
+			transaction.commit();
+		} catch (Exception e) {
+			// throw new HotelManagementSystemException("Room can't be added");
+			return null;
+		}
+		return roomBean;
+	}
+
+	@Override
+	public boolean deleteRoomInformation(int roomId) {
+		boolean isDeleted = false;
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		String jpql = "delete from RoomInformationBean where roomId =: roomId";
+		try {
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("roomId", roomId);
+			transaction.begin();
+			int result = query.executeUpdate();
+			if (result > 0) {
+				transaction.commit();
+				isDeleted = true;
+			}
+		} catch (Exception e) {
+			// throw new HotelManagementSystemException("Hotel id not found");
+			return false;
+		}
+		return isDeleted;
+	}
+
+	@Override
+	public List<RoomInformationBean> getRoomList() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "from RoomInformationBean";
+		List<RoomInformationBean> roomList = null;
+		try {
+			Query query = entityManager.createQuery(jpql);
+			roomList = query.getResultList();
+		} catch (Exception e) {
+			// throw new HotelManagementSystemException("Room list not found");
+			return null;
+		}
+		return roomList;
+
+	}
+
+	@Override
+	public boolean updateRoomInformation(RoomInformationBean roomBean) {
+
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		RoomInformationBean existingRoomInformation = entityManager.find(RoomInformationBean.class,
+				roomBean.getHotelId());
+		boolean isUpdated = false;
+		if (existingRoomInformation != null) {
+			String name = roomBean.getHotelName();
+			if (name != null) {
+				existingRoomInformation.setHotelName(name);
+			}
+			String hotelLicenceNumber = roomBean.getHotelLicense();
+			if (!checkHotelLienceNumber(hotelLicenceNumber)) {
+				if (hotelLicenceNumber != null) {
+					existingRoomInformation.setHotelLicense(hotelLicenceNumber);
+				}
+			}
+			int roomCount = roomBean.getRoomCount();
+			if (roomCount != 0) {
+				existingRoomInformation.setRoomCount(roomCount);
+			}
+			String roomType = roomBean.getRoomType();
+			if (roomType != null) {
+				existingRoomInformation.setRoomType(roomType);
+			}
+			String roomCapacity = roomBean.getRoomCapacity();
+			if (roomCapacity != null) {
+				existingRoomInformation.setRoomCapacity(roomCapacity);
+			}
+			int amount = roomBean.getAmount();
+			if (amount != 0) {
+				existingRoomInformation.setAmount(amount);
+			}
+			String status = roomBean.getStatus();
+			if (status != null) {
+				existingRoomInformation.setStatus(status);
+			}
+			try {
+				transaction.begin();
+				entityManager.persist(existingRoomInformation);
+				transaction.commit();
+				isUpdated = true;
+			} catch (Exception e) {
+				// throw new HotelManagementSystemException("Room information can't be
+				// updated");
+				return false;
+			}
+			entityManager.close();
+		}
+		return isUpdated;
+	}
+
+}// end of class

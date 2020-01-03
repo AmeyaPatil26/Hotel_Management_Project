@@ -1,0 +1,80 @@
+package com.capgemini.hotelmanagementsystem.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.dao.AdminEmployeeUserDao;
+import com.capgemini.hotelmanagementsystem.exception.HotelManagementSystemException;
+import com.capgemini.hotelmanagementsystem.validation.HotelValidation;
+
+@Service
+public class AdminEmployeeUserServiceImpl implements AdminEmployeeUserService {
+
+	@Autowired
+	private AdminEmployeeUserDao adminEmployeeUserDao;
+
+	@Autowired
+	private HotelValidation validation;
+
+	@Override
+	public AdminEmployeeUserBean adminEmployeeUserLogin(String email, String password) {
+		if (validation.emailValidation(email)) {
+			if (validation.passwordValidation(password)) {
+				return adminEmployeeUserDao.adminEmployeeUserLogin(email, password);
+			} else {
+				throw new HotelManagementSystemException("Invalid Credentials for password");
+			} // End of else for password
+		} else {
+			throw new HotelManagementSystemException("Email must be in abc@gmail.com format");
+		} // End of else for email	
+		}// end of adminEmployeeUserLogin
+
+	@Override
+	public AdminEmployeeUserBean userRegister(AdminEmployeeUserBean adminEmployeeUserBean) {
+		int id = adminEmployeeUserBean.getId();
+		String idUser = Integer.toString(id);
+		String email = adminEmployeeUserBean.getEmail();
+		String password = adminEmployeeUserBean.getPassword();
+		String contactNumber = adminEmployeeUserBean.getContactNumber();
+		String name = adminEmployeeUserBean.getName();
+		if (validation.idValidation(idUser)) {
+			if (validation.emailValidation(email)) {
+				if (validation.passwordValidation(password)) {
+					if (validation.contactNumberValidation(contactNumber)) {
+						if (validation.nameValidation(name)) {
+							return adminEmployeeUserDao.updateUserProfile(adminEmployeeUserBean);
+						} else {
+							throw new HotelManagementSystemException("Name must be in abc efg format");
+						}// End of name else
+					} else {
+						throw new HotelManagementSystemException(
+								"Contact Number first Integer must be between [7-9] and rest as follow");
+					}// End of contactNumber else
+				} else {
+					throw new HotelManagementSystemException("Invalid Credentials for password");
+				}// End of else for password
+			} else {
+				throw new HotelManagementSystemException("Email must be in abc@gmail.com format");
+			}// End of else for email
+		} else {
+			throw new HotelManagementSystemException("Enter Proper Id");
+		}// End of else for id
+	}// end of userRegister()
+
+	@Override
+	public boolean checkUserEmail(String email) {
+		return adminEmployeeUserDao.checkUserEmail(email);
+	}// end of checkUserEmail
+
+	@Override
+	public AdminEmployeeUserBean userProfile(AdminEmployeeUserBean adminEmployeeUserBean) {
+		return adminEmployeeUserDao.userProfile(adminEmployeeUserBean);
+	}
+
+	@Override
+	public AdminEmployeeUserBean updateUserProfile(AdminEmployeeUserBean adminEmployeeUserBean) {
+		return adminEmployeeUserDao.updateUserProfile(adminEmployeeUserBean);
+	}
+
+}// end of class

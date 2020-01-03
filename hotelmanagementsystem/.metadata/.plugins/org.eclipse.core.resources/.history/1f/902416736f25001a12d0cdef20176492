@@ -1,0 +1,385 @@
+package com.capgemini.hotelmanagementsystem.daoimpl;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.hotelmanagementsystem.bean.AdminEmployeeUserBean;
+import com.capgemini.hotelmanagementsystem.bean.EmployeeInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.RoomInformationBean;
+import com.capgemini.hotelmanagementsystem.bean.exception.HotelManagementSystemException;
+import com.capgemini.hotelmanagementsystem.dao.AdminOperationDao;
+
+@Repository
+public class AdminOperationDaoImpl implements AdminOperationDao {
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
+
+	// --------------------- Hotel Information CRUD--------------------//
+	@Override
+	public HotelInformationBean addHotel(HotelInformationBean hotelBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+		//	if (licenseNumberPresent(hotelBean.getLicenceNumber()) == false) {
+				transaction.begin();
+				entityManager.persist(hotelBean);
+				transaction.commit();
+//			} else {
+//				System.out.println("Hotel already exists");
+//			}
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong...Hotel can't be added");
+		}
+		return hotelBean;
+	}
+
+	@Override
+	public List<HotelInformationBean> getHotelList() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "from HotelInformationBean";
+		// Query query = entityManager.createQuery(jpql);
+		List<HotelInformationBean> hotelList = null;
+		try {
+			Query query = entityManager.createQuery(jpql);
+			hotelList = query.getResultList();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... Hotel list not found");
+		}
+		return hotelList;
+	}
+
+	@Override
+	public boolean updateHotelInformation(HotelInformationBean hotelBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		HotelInformationBean existingHotelInformation = entityManager.find(HotelInformationBean.class,
+				hotelBean.getHotelId());
+		boolean isUpdated = false;
+		if (existingHotelInformation != null) {
+			String name = hotelBean.getHotelName();
+			if (name != null) {
+				existingHotelInformation.setHotelName(name);
+			}
+			String licenseNumber = hotelBean.getLicenceNumber();
+			if (licenseNumberPresent(licenseNumber) == false) {
+				if (licenseNumber != null) {
+					existingHotelInformation.setLicenceNumber(licenseNumber);
+				}
+			}
+			String address = hotelBean.getHotelAddress();
+			if (address != null) {
+				existingHotelInformation.setHotelAddress(address);
+			}
+			String contactNumber = hotelBean.getHotelContactNumber();
+			if (contactNumber != null) {
+				existingHotelInformation.setHotelContactNumber(contactNumber);
+				;
+			}
+			String imgUrl = hotelBean.getHotelImageURL();
+			if (imgUrl != null) {
+				existingHotelInformation.setHotelImageURL(imgUrl);
+			}
+
+		}
+		try {
+			transaction.begin();
+			entityManager.persist(existingHotelInformation);
+			transaction.commit();
+			isUpdated = true;
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... Hotel information can't be updated");
+		}
+		entityManager.close();
+		return isUpdated;
+	}
+
+	@Override
+	public boolean deleteHotelInformation(int hotelId) {
+		boolean isDeleted = false;
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		String jpql = "delete from HotelInformationBean where hotelId = : hotelId";
+		try {
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("hotelId", hotelId);
+			transaction.begin();
+			int result = query.executeUpdate();
+			transaction.commit();
+			if (result > 0) {
+				isDeleted = true;
+			} else {
+				isDeleted = false;
+			}
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... Hotel can't be deleted");
+		}
+		return isDeleted;
+	}
+
+	@Override
+	public boolean licenseNumberPresent(String licenseNumber) {
+		boolean isPresent = false;
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "from HotelInformationBean";
+		try {
+			Query query = entityManager.createQuery(jpql);
+			List<HotelInformationBean> hotelList = query.getResultList();
+			for (HotelInformationBean hotelbean : hotelList) {
+				if (hotelbean.getLicenceNumber().equals(licenseNumber)) {
+					System.out.println("Hotel license already present");
+					isPresent = true;
+					break;
+				}
+			}
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... hotel license not found");
+		}
+		return isPresent;
+	}
+	// --------------------- Room Information CRUD--------------------//
+
+	@Override
+	public RoomInformationBean addRoom(RoomInformationBean roomBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		String jpql = "from HotelInformationBean where licenceNumber =: licenseNumber";
+		Query query = entityManager.createQuery(jpql);
+		query.setParameter("licenseNumber", roomBean.getLicenceNumber());
+		HotelInformationBean hotelInformation = (HotelInformationBean) query.getSingleResult();
+		roomBean.setHotelId(hotelInformation.getHotelId());
+		try {
+			transaction.begin();
+			entityManager.persist(roomBean);
+			transaction.commit();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... Room can't be added");
+		}
+		return roomBean;
+	}
+
+	@Override
+	public boolean deleteRoomInformation(int roomId) {
+		boolean isDeleted = false;
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		String jpql = "delete from RoomInformationBean where roomId =: roomId";
+		try {
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("roomId", roomId);
+			transaction.begin();
+			int result = query.executeUpdate();
+			if (result > 0) {
+				transaction.commit();
+				isDeleted = true;
+			}
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... Hotel id not found");
+		}
+		return isDeleted;
+	}
+
+	@Override
+	public List<RoomInformationBean> getRoomList() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		String jpql = "from RoomInformationBean";
+		List<RoomInformationBean> roomList = null;
+		try {
+			Query query = entityManager.createQuery(jpql);
+			roomList = query.getResultList();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong...Room list not found");
+		}
+		return roomList;
+
+	}
+
+	@Override
+	public boolean updateRoomInformation(RoomInformationBean roomBean) {
+		System.out.println("..........................."+roomBean.getHotelId());
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		RoomInformationBean existingRoomInformation = entityManager.find(RoomInformationBean.class,
+				roomBean.getRoomId());
+		boolean isUpdated = false;
+		if (existingRoomInformation != null) {
+			String name = roomBean.getHotelName();
+			if (name != null) {
+				existingRoomInformation.setHotelName(name);
+			}
+			String licenseNumber = roomBean.getLicenceNumber();
+			if (licenseNumberPresent(licenseNumber) == false) {
+				if (licenseNumber != null) {
+					existingRoomInformation.setLicenceNumber(licenseNumber);
+				}
+			}
+			String imageUrl = roomBean.getRoomImageURL();
+			if (imageUrl != null) {
+				existingRoomInformation.setRoomImageURL(imageUrl);
+			}
+			int roomCount = roomBean.getRoomCount();
+			if (roomCount != 0) {
+				existingRoomInformation.setRoomCount(roomCount);
+			}
+			String roomType = roomBean.getRoomType();
+			if (roomType != null) {
+				existingRoomInformation.setRoomType(roomType);
+			}
+			String roomCapacity = roomBean.getRoomCapacity();
+			if (roomCapacity != null) {
+				existingRoomInformation.setRoomCapacity(roomCapacity);
+			}
+			int amount = roomBean.getRoomAmount();
+			if (amount != 0) {
+				existingRoomInformation.setRoomAmount(amount);
+			}
+			String status = roomBean.getRoomStatus();
+			if (status != null) {
+				existingRoomInformation.setRoomStatus(status);
+			}
+			try {
+				transaction.begin();
+				entityManager.persist(existingRoomInformation);
+				transaction.commit();
+				isUpdated = true;
+			} catch (Exception e) {
+				throw new HotelManagementSystemException("Something went wrong...Room information can't be updated");
+			}
+			entityManager.close();
+		}
+		return isUpdated;
+	} // --------------------- Employee Information CRUD--------------------//
+
+	@Override
+	public EmployeeInformationBean addEmployee(EmployeeInformationBean employeeBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		String jpql = "from HotelInformationBean where licenceNumber =: licenseNumber";
+		Query query = entityManager.createQuery(jpql);
+		query.setParameter("licenseNumber", employeeBean.getLicenceNumber());
+		HotelInformationBean hotelInformation = (HotelInformationBean) query.getSingleResult();
+		employeeBean.setHotelId(hotelInformation.getHotelId());
+		try {
+			transaction.begin();
+			entityManager.persist(employeeBean);
+			transaction.commit();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong...Employee can't be added");
+		}
+		AdminEmployeeUserBean employeeInformation = new AdminEmployeeUserBean();
+		employeeInformation.setEmail(employeeBean.getEmail());
+		employeeInformation.setName(employeeBean.getName());
+		employeeInformation.setPassword(employeeBean.getPassword());
+		employeeInformation.setType("employee");
+		try {
+			transaction.begin();
+			entityManager.persist(employeeInformation);
+			transaction.commit();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong...Employee can't be added");
+		}
+		return employeeBean;
+	}
+
+	@Override
+	public List<EmployeeInformationBean> getEmployeeList() {
+		List<EmployeeInformationBean> employeeList = null;
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			String jpql = "from EmployeeInformationBean";
+			Query query = entityManager.createQuery(jpql);
+			employeeList = query.getResultList();
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong...Employee list not found");
+		}
+		return employeeList;
+	}
+
+	@Override
+	public boolean deleteEmployeeInformation(int employeeId) {
+		boolean isDeleted = false;
+
+		try {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			EntityTransaction transaction = entityManager.getTransaction();
+			String jpql = "delete from EmployeeInformationBean where employeeId = : employeeId";
+
+			String jpql1 = "from EmployeeInformationBean where employeeId = : employeeId";
+			Query query1 = entityManager.createQuery(jpql1);
+			query1.setParameter("employeeId", employeeId);
+			EmployeeInformationBean employeeBean = (EmployeeInformationBean) query1.getSingleResult();
+
+			String jpqlDeleteFromLogin = "delete from AdminEmployeeUserBean where email =: email";
+			Query queryDeleteFromLogin = entityManager.createQuery(jpqlDeleteFromLogin);
+			queryDeleteFromLogin.setParameter("email", employeeBean.getEmail());
+			transaction.begin();
+			int deleted = queryDeleteFromLogin.executeUpdate();
+			transaction.commit();
+
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("employeeId", employeeId);
+			transaction.begin();
+			int result = query.executeUpdate();
+			transaction.commit();
+			if (result > 0) {
+				isDeleted = true;
+			} else {
+				isDeleted = false;
+			}
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong...Employee can't be deleted");
+		}
+		return isDeleted;
+	}
+
+	@Override
+	public boolean updateEmployeeInformation(EmployeeInformationBean employeeBean) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		EmployeeInformationBean existingEmployeeInformation = entityManager.find(EmployeeInformationBean.class,
+				employeeBean.getEmployeeId());
+		boolean isUpdated = false;
+		if (existingEmployeeInformation != null) {
+			String name = employeeBean.getHotelName();
+			if (name != null) {
+				existingEmployeeInformation.setHotelName(name);
+			}
+			String licenseNumber = employeeBean.getLicenceNumber();
+			if (licenseNumberPresent(licenseNumber) == false) {
+				if (licenseNumber != null) {
+					existingEmployeeInformation.setLicenceNumber(licenseNumber);
+				}
+			}
+			String email = employeeBean.getEmail();
+			if (email != null) {
+				existingEmployeeInformation.setEmail(email);
+			}
+			String password = employeeBean.getPassword();
+			if (password != null) {
+				existingEmployeeInformation.setPassword(password);
+			}
+			String employeeName = employeeBean.getName();
+			if (employeeName != null) {
+				existingEmployeeInformation.setName(name);
+			}
+		}
+		try {
+			transaction.begin();
+			entityManager.persist(existingEmployeeInformation);
+			transaction.commit();
+			isUpdated = true;
+		} catch (Exception e) {
+			throw new HotelManagementSystemException("Something went wrong... Employee information can't be updated");
+		}
+		entityManager.close();
+		return isUpdated;
+	}
+}// end of class

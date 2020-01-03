@@ -1,0 +1,36 @@
+package com.capgemini.hotelmanagementsystem.validation;
+
+import java.util.regex.Pattern;
+
+import org.springframework.stereotype.Repository;
+
+import java.util.regex.Matcher;
+
+@Repository
+public class ValidationDaoImpl implements ValidationDao {
+
+	Pattern pattern = null;
+	Matcher matcher = null;
+
+	public boolean emailValidation(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
+
+		pattern = Pattern.compile(emailRegex);
+		if (email == null) {
+			return false;
+		}
+		return pattern.matcher(email).matches();
+	}// end of emailValidation()
+
+	@Override
+	public boolean passwordValidation(String password) {
+		pattern = Pattern.compile("^(?=.\\\\d)(?=.[a-z])(?=.*[A-Z]).{4,10}$");
+		matcher = pattern.matcher(password);
+		if (matcher.matches()) {
+			return true;
+		}
+		return false;
+	}// end of passwordValidation()
+
+}// end of class

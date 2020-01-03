@@ -1,0 +1,7 @@
+package com.capgemini.hotelmanagementsystem.controller;
+
+@RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
+public class AdminOperationController {
+
+}// end of class

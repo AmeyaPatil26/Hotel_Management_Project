@@ -1,0 +1,106 @@
+package com.capgemini.hotelmanagementsystem.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.hotelmanagementsystem.bean.HotelInformationBean;
+import com.capgemini.hotelmanagementsystem.response.HotelManagementResponse;
+import com.capgemini.hotelmanagementsystem.service.HotelInformationService;
+
+@RestController
+//@CrossOrigin(origins = "http://localhost:4200")
+public class HotelInformationController {
+
+	@Autowired
+	private HotelInformationService hotelInformationService;
+
+	// .............................addHotelInformation....................................//
+
+	@PutMapping(path = "/addHotelInformation", consumes = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HotelManagementResponse userRegister(@RequestBody HotelInformationBean hotelInformationBean) {
+		HotelManagementResponse hotelManagementResponse = new HotelManagementResponse();
+		String hotelLicence = hotelInformationBean.getHotelLicenceNumber();
+		if (!hotelInformationService.checkHotelLienceNumber(hotelLicence)) {
+			HotelInformationBean hotelInformationBean1 = hotelInformationService
+					.addHotelInformation(hotelInformationBean);
+
+			if (hotelInformationBean1 != null) {
+				hotelManagementResponse.setStatusCode(200);
+				hotelManagementResponse.setMessage("success");
+				hotelManagementResponse.setDescription(hotelInformationBean1.getHotelName() + "Added Sucessfully");
+			} else {
+				hotelManagementResponse.setStatusCode(400);
+				hotelManagementResponse.setMessage("fail");
+				hotelManagementResponse.setDescription("Unable to Add..Please Try Again");
+			}
+
+			return hotelManagementResponse;
+
+		} else {
+			hotelManagementResponse.setStatusCode(400);
+			hotelManagementResponse.setMessage("fail");
+			hotelManagementResponse.setDescription("This Hotel Licence is already Present...Please Try Again ");
+
+			return hotelManagementResponse;
+		}
+	}// end of adminuserRegister()
+
+	// .............................updateHotelInformation....................................//
+
+	@PutMapping(path = "/updateHotelInformation", consumes = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+	// @ResponseBody
+	public HotelManagementResponse updateHotelInformation(@RequestBody HotelInformationBean hotelInformationBean) {
+		HotelManagementResponse hotelManagementResponse = new HotelManagementResponse();
+		String hotelLicence = hotelInformationBean.getHotelLicenceNumber();
+		if (!hotelInformationService.checkHotelLienceNumber(hotelLicence)) {
+			HotelInformationBean hotelInformationBean1 = hotelInformationService
+					.updateHotelInformation(hotelInformationBean);
+
+			if (hotelInformationBean1 != null) {
+				hotelManagementResponse.setStatusCode(210);
+				hotelManagementResponse.setMessage("success");
+				hotelManagementResponse.setDescription(hotelInformationBean1.getHotelName() + " Updated Successfully");
+			} else {
+				hotelManagementResponse.setStatusCode(230);
+				hotelManagementResponse.setMessage("fail");
+				hotelManagementResponse.setDescription("Hotel  Not Updated ");
+			}
+			return hotelManagementResponse;
+
+		} else {
+			hotelManagementResponse.setStatusCode(400);
+			hotelManagementResponse.setMessage("fail");
+			hotelManagementResponse.setDescription("This Hotel Licence is already Present...Please Try Again ");
+
+			return hotelManagementResponse;
+		}
+
+	}// end of updateHotelInformation()
+
+	// .............................deleteHotelInformation....................................//
+
+	@DeleteMapping(path = "/deleteHotelInformation/{hotelId}", produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
+	public HotelManagementResponse deleteProduct(@PathVariable int HotelId) {
+		HotelManagementResponse response = new HotelManagementResponse();
+		if (hotelInformationService.deleteHotelInformation(HotelId)) {
+			response.setStatusCode(200);
+			response.setMessage("success");
+			response.setDescription("Hotel deleted successfully");
+		} else {
+			response.setStatusCode(400);
+			response.setMessage("fail");
+			response.setDescription("hotel Not Deleted...Please Try Again ");
+		}
+		return response;
+
+	}// end of deleteProduct()
+
+}// end of class
