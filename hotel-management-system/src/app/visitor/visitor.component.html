@@ -1,0 +1,30 @@
+<div class="form-group mt-2" style="margin-left: 120px;">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text bg-dark text-light">
+                Search Hotel
+            </span>
+        </div>
+        <span style="width: 70%; ">
+            <input type="search" name="search" id="search" placeholder="Enter Location..." [(ngModel)]='search'
+                class="form-control">
+        </span>
+    </div>
+
+</div>
+<div class="col-md-4 offset-md-4 mt-2 mb-2 "></div>
+<div *ngFor='let h of hotelList | locationSearch : search'>
+    <div class="card card-body float-left ml-5" style="height: 400px; width: 380px;">
+        <img src="{{h.hotelImageURL}}" alt="" style="height: 200px; width: 320px; padding-left: 3px;;">
+
+        <label for="hotelName" class="text-center">
+            <h3>{{h.hotelName}}</h3>
+        </label>
+        <label for="hotelName">Address :{{h.hotelAddress}}</label>
+        <label for="hotelName">Contact Number :{{h.hotelContactNumber}}</label>
+        <button class="btn btn-outline-dark" (click)="userRoomList(h)">
+            View Rooms
+
+        </button>
+    </div>
+</div>

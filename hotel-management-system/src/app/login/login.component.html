@@ -1,0 +1,56 @@
+<div class="hero">
+<div class="col-md-4 offset-md-4 mt-5 card card-body border border-dark">
+    
+     <h4>
+        Login here
+    </h4>
+    <hr>
+    <form #loginForm="ngForm" (ngSubmit)='loginUser(loginForm)'>
+        <div class="form-group">
+            <label for="Email ID">Email ID</label>
+            <input class="form-control" type="email" name="email" placeholder="Enter Your Email ID" #email='ngModel'
+                ngModel required email pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+            <div *ngIf='email.touched && email.invalid'>
+                <p class="text-danger" *ngIf='email.errors.required'>
+                    *This field is mandatory
+                </p>
+                <p class="text-danger" *ngIf='email.errors.pattern'>
+                    *Please Enter valid email id (eg. abc@gmail.com)
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input class="form-control" type="password" name="password" placeholder="Enter Your password"
+                #password='ngModel' ngModel required password >
+               <!-- pattern="((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})" -->
+            <div *ngIf='password.touched && password.invalid'>
+                <p class="text-danger" *ngIf='password.errors.required'>
+                    *This field is mandatory
+                </p>
+                
+            </div>
+        </div>
+        <div class="text-danger" *ngIf='error'>
+            {{error}}
+        </div>
+        <div class="float-right">
+
+            <button class=" btn btn-dark" type="submit"  name="login" [disabled]='loginForm.invalid'>
+                Login
+
+            </button>&nbsp;
+            <button class=" btn btn-dark" type="reset">
+                Cancel
+
+            </button>
+
+        </div>
+        <br>
+        <br>
+        <br>
+    
+        <label for="register">Don't have an account? <a routerLink="/register">Click Here</a></label>
+    </form>
+</div>
+</div>

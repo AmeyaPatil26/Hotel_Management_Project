@@ -1,0 +1,11 @@
+.hero{
+    height: 601px;
+    width: 100%;
+    background-image: url(https://images.unsplash.com/photo-1542750971-85220850b335?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60);
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+}
+button{
+    background-color: rgb(23, 194, 194);
+}

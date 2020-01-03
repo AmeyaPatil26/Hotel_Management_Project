@@ -1,0 +1,43 @@
+<!-- Vertical-bar -->
+
+<mat-sidenav-container class="sidenav-container" *ngIf='isLoggedIn() ' >
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)" class="border border-dark">
+   
+    <mat-nav-list >
+      <img alt="image"
+          src="https://cdn.pixabay.com/photo/2016/11/18/22/21/architecture-1837150__340.jpg" height="250px"
+          width="250px" >
+      <a mat-list-item *ngIf='isAdmin()  ' routerLink="./admin-hotel-list">Hotel List</a>
+      <a mat-list-item *ngIf='isAdmin()  ' routerLink="./admin-add-hotel">Add Hotel</a>
+      
+      <a mat-list-item *ngIf='isAdmin()  ' routerLink="./admin-room-list">Room List</a>
+      <a mat-list-item *ngIf='isAdmin()  ' routerLink="./admin-add-room">Add Room</a>
+
+      <a mat-list-item *ngIf='isAdmin()  ' routerLink="./admin-employee-list">Employee List</a>
+      <a mat-list-item *ngIf='isAdmin()  ' routerLink="./admin-add-employee">Add Employee</a>
+      
+      <a mat-list-item *ngIf='isAdmin()' routerLink="./admin-booking-report">Booking Report</a>
+      <a mat-list-item *ngIf='isUser() || isAdmin() ' routerLink="./admin-profile">Profile</a>
+      <a mat-list-item *ngIf='isUser() ' routerLink="./user-hotel-list">Hotel List</a>
+      <a mat-list-item *ngIf='isUser() ' routerLink="./user-booking-report">Booking Report</a>
+      <!-- <a mat-list-item *ngIf='isUser() ' routerLink="./user-room-list"></a> -->
+      <a mat-list-item *ngIf='isEmployee() ' routerLink="./employee-hotel-info">Hotel Info</a>
+      <a mat-list-item *ngIf='isEmployee() ' routerLink="./employee-room-list">Room List</a>
+      <a mat-list-item *ngIf='isEmployee() ' routerLink="./employee-user-booking">User Booking</a>
+      <a mat-list-item (click)="logout()">Logout</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar >
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span class="text-dark" style="font-size:30px ;"><b>Hotel Management System</b></span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

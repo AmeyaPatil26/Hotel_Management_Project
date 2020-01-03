@@ -1,0 +1,45 @@
+<div class="form-group mt-2"  style="margin-left: 120px;">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text bg-dark text-light">
+                Search Hotel
+            </span>
+        </div>
+        <span style="width: 70%;">
+            <input type="search" name="search" id="search" placeholder="Enter Location..." [(ngModel)]='search'
+                class="form-control">
+        </span>
+    </div>
+
+</div>
+<!-- <div class="col-md-4 offset-md-4 mt-2 mb-2">
+    <input type="search" name="search" id="search" placeholder="Enter Location..."
+    [(ngModel)]='search' class="form-control">
+</div> -->
+<div *ngFor='let h of hotelList  | locationSearch : search'>
+    <div class="card card-body float-left" style="height: 420px; width: 360px;">
+        <img src="{{h.hotelImageURL}}" style="align-items: center;" alt="" class="img-fluid"
+            style="height: 200px; width: 300px;">
+
+        <label for="hotelName" style="text-align: center;">
+            <h4>{{h.hotelName}}</h4>
+        </label>
+        <label for="licenceNumber">Licence Number: {{h.licenceNumber}}</label>
+
+        <label for="hotelName">Address :{{h.hotelAddress}}</label>
+        <label for="hotelName">Contact Number :{{h.hotelContactNumber}}</label>
+        <div class="btn-group">
+            <button class="btn btn-outline-danger" (click)="deleteHotelInfo(h)">
+                Delete
+            </button>
+
+            <!-- start -->
+
+            <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal"
+                (click)="selectHotel(h)">
+                Update
+            </button>
+        </div>
+
+    </div>
+</div>

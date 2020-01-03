@@ -1,0 +1,29 @@
+<div *ngFor='let r of roomList'>
+    <div class="card card-body float-left" style="height: 500px; width: 360px;">
+        <img src="{{r.roomImageURL}}" alt="" style="align-items: center; height: 200px; width: 300px;">
+        <label for="hotelName" style="text-align: center;"><h4>{{r.hotelName}}</h4></label>
+        <label for="licenceNumber">Licence Number: {{r.licenceNumber}}</label>
+      
+        <label for="roomCount">Room Count :{{r.roomCount}}</label>
+        <label for="roomType">Room Type :{{r.roomType}}</label>
+        <label for="roomCapacity">Room Capacity :{{r.roomCapacity}}</label>
+        <label for="roomType">Room Amount :{{r.roomAmount}}</label>
+        <label for="roomType">Room Status :{{r.roomStatus}}</label> 
+        <div class="btn-group">
+            <button class="btn btn-outline-danger" (click)="deleteRoomInfo(r)">
+                Delete
+            </button> 
+            <!-- start --> 
+
+            <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal"
+                (click)="selectRoom(r)">
+                Update
+            </button>
+        </div>
+
+
+        <!-- end  -->
+
+
+    </div>
+</div>

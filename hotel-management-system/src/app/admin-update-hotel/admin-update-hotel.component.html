@@ -1,0 +1,84 @@
+<div class="col-md-6 offset-md-3 mt-5 card card-body border border-dark" *ngIf="hotelInfoForUpdate">
+    <h4 class="text-center">
+        Update Hotel
+    </h4>
+    <hr>
+    <form #updateHotel='ngForm' (ngSubmit)='updateHotelInfo(updateHotel)'>
+
+        <input type="hidden" name="hotelId" #hotelId='ngModel' [(ngModel)]='hotelInfoForUpdate.hotelId'>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="hotelName">
+                        Hotel Name:
+                    </label>
+                    <input type="text" name="hotelName" class="form-control" #hotelName="ngModel" ngModel
+                        [(ngModel)]="hotelInfoForUpdate.hotelName">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="licenceNumber">
+                        Licence Number:
+                    </label>
+                    <input type="text" name="licenceNumber" class="form-control" #licenceNumber="ngModel" ngModel
+                        [(ngModel)]="hotelInfoForUpdate.licenceNumber" pattern="^(H)[0-9]{8}$">
+                    <div *ngIf='licenceNumber.touched && licenceNumber.invalid'>
+                        <p class="alert alert-danger" *ngIf='licenceNumber.errors.pattern'>
+                            please enter valid category.. category not cantain numbers
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+                <div class="form-group">
+                    <label for="hotelAddress">
+                        Hotel Address:
+                    </label>
+                    <input type="text" name="hotelAddress" class="form-control" #hotelAddress="ngModel" ngModel
+                        [(ngModel)]="hotelInfoForUpdate.hotelAddress">
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hotelContactNumber">
+                        Hotel Contact Number:
+                    </label>
+                    <input type="text" name="hotelContactNumber" class="form-control" #hotelContactNumber="ngModel"
+                        ngModel [(ngModel)]="hotelInfoForUpdate.hotelContactNumber" pattern="[7-9]{1}[0-9]{9}">
+                    <div *ngIf='hotelContactNumber.touched && hotelContactNumber.invalid'>
+
+                        <p class="alert alert-danger" *ngIf='hotelContactNumber.errors.pattern'>
+                            please enter valid Quantity
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="productPrice">
+                Hotel ImageURL:
+            </label>
+            <input type="text" name="hotelImageURL" class="form-control" #hotelImageURL="ngModel" ngModel
+                [(ngModel)]="hotelInfoForUpdate.hotelImageURL">
+
+        </div>
+
+
+        <div class="btn-group float-right">
+            <button class="btn btn-outline-dark" type="reset">
+                Reset
+            </button>
+            &nbsp;&nbsp;
+            <button class="btn btn-outline-dark" type="submit" [disabled]='updateHotel.invalid'>
+                Update
+            </button>
+        </div>
+
+    </form>
+</div>

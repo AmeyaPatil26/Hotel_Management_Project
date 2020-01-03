@@ -1,0 +1,116 @@
+<div class="col-md-6 offset-md-3 mt-5 card card-body border border-dark">
+    <h4 class="text-center">
+        Add Hotel
+    </h4>
+    <hr>
+    <form #addHotel='ngForm' (ngSubmit)='addNewHotel(addHotel)'>
+        <!--    -->
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="licenceNumber">
+                        Licence Number:
+                    </label>
+                    <input type="text" name="licenceNumber" class="form-control" #licenceNumber="ngModel"
+                    placeholder="Enter Hotel Licence Number"    pattern="^(H)[0-9]{8}$" ngModel required>
+                    <div *ngIf='licenceNumber.touched && licenceNumber.invalid'>
+                        <p class="text-danger" *ngIf='licenceNumber.errors.required'>
+                            *This field is mandatory
+                        </p>
+                        <p class="text-danger" *ngIf='licenceNumber.errors.pattern'>
+                            *Invalid Licence Number!!! <br>It should contain 'H' and 8 digit number
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+
+                <div class="form-group">
+                    <label for="hotelName">
+                        Hotel Name:
+                    </label>
+                    <input type="text" name="hotelName" class="form-control" #hotelName="ngModel" ngModel required
+                    placeholder="Enter Hotel Name"      minlength="2">
+                    <div *ngIf='hotelName.touched && hotelName.invalid'>
+                        <p class="text-danger" *ngIf='hotelName.errors.required'>
+                            *This field is mandatory
+                        </p>
+                        <p class="text-danger" *ngIf='hotelName.errors.minlength'>
+                            *This field minimum length is 2
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="hotelAddress">
+                        Hotel Address:
+                    </label>
+                    <input type="text" name="hotelAddress" class="form-control" #hotelAddress="ngModel" ngModel required
+                    placeholder="Address(Max Length=20)" maxlength="20"  minlength="3">
+                    <div *ngIf='hotelAddress.touched && hotelAddress.invalid'>
+                        <p class="text-danger" *ngIf='hotelAddress.errors.required'>
+                            *This field is mandatory
+                        </p>
+                        <p class="text-danger" *ngIf='hotelAddress.errors.minlength'>
+                            *This field minimum length is 3
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hotelContactNumber">
+                    Contact Number:
+                    </label>
+                    <input type="text" name="hotelContactNumber" class="form-control" #hotelContactNumber="ngModel"
+                    placeholder="Enter Hotel Contact Number"      ngModel pattern="[7-9]{1}[0-9]{9}" required>
+                    <div *ngIf='hotelContactNumber.touched && hotelContactNumber.invalid'>
+                        <p class="text-danger" *ngIf='hotelContactNumber.errors.required'>
+                            *This field is mandatory
+                        </p>
+                        <p class="text-danger" *ngIf='hotelContactNumber.errors.pattern'>
+                            *Please enter 10 digit valid number. Number should start from 7,8,9 
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="hotelImageURL">
+                Hotel ImageURL:
+            </label>
+            <input type="text" name="hotelImageURL" class="form-control" #hotelImageURL="ngModel" ngModel required
+            placeholder="Enter Hotel Image URL(?:jpg|gif|png|jpeg)"     pattern="(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|jpeg)">
+
+            <div *ngIf='hotelImageURL.touched && hotelImageURL.invalid'>
+                <p class="text-danger" *ngIf='hotelImageURL.errors.required'>
+                    *This field is mandatory
+                </p>
+                <p class="text-danger" *ngIf='hotelImageURL.errors.pattern'>
+                    *This field only accept jpg ,gif ,png or jpeg format
+                </p>
+
+            </div>
+        </div>
+
+
+        <div class="btn-group float-right">
+            <button class="btn btn-outline-dark" id="reset" type="reset">
+                Reset
+            </button>
+            &nbsp;&nbsp;
+            <button class="btn btn-outline-dark" type="submit" [disabled]='addHotel.invalid'>
+                Add
+            </button>
+        </div>
+
+        <div class="text-danger" *ngIf='backendRespnse' id="errorMsg">
+            {{backendRespnse.description}}
+        </div>
+
+    </form>
+</div>

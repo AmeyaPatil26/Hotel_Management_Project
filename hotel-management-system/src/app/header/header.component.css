@@ -1,0 +1,20 @@
+.navbar{
+    background-color: rgb(23, 194, 194);
+}
+
+ul li a link{
+    font-size:larger;
+    font-weight: bolder;
+    font-style: normal;
+    
+  }
+
+  ul li a{
+    border-radius: 50% 0 50%;
+    transition:0.5s;
+}
+
+ul li a:hover{
+    background: white;
+    color:black;
+}

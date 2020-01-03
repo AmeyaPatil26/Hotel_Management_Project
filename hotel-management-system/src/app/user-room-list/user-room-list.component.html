@@ -1,0 +1,20 @@
+<div  *ngIf="!roomList">
+    <label style="margin-left: 35%; margin-top: 20%;"><h2>Sorry!!Rooms are not available</h2></label>
+</div>
+<div *ngIf="roomList">
+<div *ngFor='let room of roomList'>
+    <div class="card card-body float-left" style="height: 500px; width: 360px;">
+        <img src="{{room.roomImageURL}}" alt=""style="height: 200px; width: 300px;">
+        <label for="licenceNumber">Licence Number: {{room.licenceNumber}}</label>
+        <label for="hotelName">Hotel Name :{{room.hotelName}}</label>
+        <label for="roomCount">roomCount :{{room.roomCount}}</label>
+        <label for="roomType">roomType :{{room.roomType}}</label>
+        <label for="roomCapacity">roomCapacity :{{room.roomCapacity}}</label>
+        <label for="roomType">roomAmount :{{room.roomAmount}}</label>
+        <label for="roomType">roomStatus :{{room.roomStatus}}</label>
+        <button class="btn btn-outline-dark" (click)="userRoomBook(room)">
+            Book Room  
+       </button>
+    </div>
+</div>
+</div>

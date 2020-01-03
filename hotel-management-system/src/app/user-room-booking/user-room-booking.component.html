@@ -1,0 +1,238 @@
+<div class="col-md-4 offset-md-4 mt-5 card card-body border border-dark">
+    <div *ngIf="!dateInfo">
+        <label>
+            <h6>Enter Check In and Check Out Date First</h6>
+        </label>
+        <form #totalDays='ngForm' (ngSubmit)='calculateTotalDays(totalDays)'>
+            <input type="hidden" name="bookingAmount" class="form-control" #bookingAmount="ngModel"
+                [(ngModel)]="hotelService.singleRoomInfo.roomAmount" required>
+            <div class="form-group">
+                <label for="checkInDate">
+                    checkInDate:
+                </label>
+                <input type="date" name="checkInDate" class="form-control" #checkInDate="ngModel" [min]="todaysDate"
+                    ngModel required>
+                <div *ngIf='checkInDate.touched && checkInDate.invalid'>
+                    <p class="text-danger" *ngIf='checkInDate.errors.required'>
+                        This field is mandatory
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="checkOutDate">
+                    checkOutDate:
+                </label>
+                <input type="date" name="checkOutDate" class="form-control" #checkOutDate="ngModel" ngModel required
+                    [min]="checkInDate.value">
+                <div *ngIf='checkOutDate.touched && checkOutDate.invalid'>
+                    <p class="text-danger" *ngIf='checkOutDate.errors.required'>
+                        This field is mandatory
+                    </p>
+
+                </div>
+            </div>
+            <button class="btn btn-outline-dark float-right" type="submit" [disabled]='totalDays.invalid'>
+                Submit
+            </button>
+        </form>
+    </div>
+    <div *ngIf="this.hotelService.totalBill ==='Failure'">
+        <label class="alert alert-danger">
+            {{this.hotelService.datadescription}}
+        </label>
+        <label>
+            <h6>Enter Check In and Check Out Date First</h6>
+        </label>
+        <form #totalDays='ngForm' (ngSubmit)='calculateTotalDays(totalDays)'>
+            <input type="hidden" name="bookingAmount" class="form-control" #bookingAmount="ngModel"
+                [(ngModel)]="hotelService.singleRoomInfo.roomAmount" required>
+            <div class="form-group">
+                <label for="checkInDate">
+                    checkInDate:
+                </label>
+                <input type="date" onkeydown="return false"  name="checkInDate" class="form-control" #checkInDate="ngModel" [min]="todaysDate"
+                    ngModel required>
+                <div *ngIf='checkInDate.touched && checkInDate.invalid'>
+                    <p class="text-danger" *ngIf='checkInDate.errors.required'>
+                        This field is mandatory
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="checkOutDate">
+                    checkOutDate:
+                </label>
+                <input type="date" onkeydown="return false" name="checkOutDate" class="form-control" #checkOutDate="ngModel" ngModel required
+                    [min]="checkInDate.value">
+                <div *ngIf='checkOutDate.touched && checkOutDate.invalid'>
+                    <p class="text-danger" *ngIf='checkOutDate.errors.required'>
+                        This field is mandatory
+                    </p>
+
+                </div>
+            </div>
+            <button class="btn btn-outline-dark float-right" type="submit" [disabled]='totalDays.invalid'>
+                Submit
+            </button>
+        </form>
+    </div>
+    <div *ngIf="dateInfo && this.hotelService.totalBill !='Failure'">
+
+        <div class="form-group">
+           
+            <ul class="nav bg-light nav-pills rounded nav-fill md-3" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" id="card"  href="#nav-tab-card">
+                        <i class="fa fa-credit-card"></i> Credit Card</a></li>
+
+               
+            </ul>
+        </div>
+        <div class="tab-content  " >
+            <div class="tab-pane fade show active" id="nav-tab-card">
+              
+                <form #bookUserRoom='ngForm' (ngSubmit)='addUserBooking(bookUserRoom)'>
+
+              
+                    <div *ngIf="bookingInfo && userInfo">
+                        <input type="hidden" name="licenceNumber" class="form-control" #licenceNumber="ngModel"
+                            [(ngModel)]="bookingInfo.licenceNumber" required>
+
+                        <input type="hidden" name="hotelName" class="form-control" #hotelName="ngModel"
+                            [(ngModel)]="bookingInfo.hotelName" required>
+
+                        <input type="hidden" name="roomId" class="form-control" #roomId="ngModel"
+                            [(ngModel)]="bookingInfo.roomId" required>
+
+                        <input type="hidden" name="roomType" class="form-control" #roomType="ngModel"
+                            [(ngModel)]="bookingInfo.roomType" required>
+
+                        <input type="hidden" name="roomCapacity" class="form-control" #roomCapacity="ngModel"
+                            [(ngModel)]="bookingInfo.roomCapacity" required>
+                    </div>
+                    <input type="hidden" name="email" class="form-control" #email="ngModel" [(ngModel)]="userInfo.email"
+                        required>
+
+                    <input type="hidden" name="name" class="form-control" #name="ngModel" [(ngModel)]="userInfo.name"
+                        required>
+
+                    <input type="hidden" name="address" class="form-control" #address="ngModel"
+                        [(ngModel)]="userInfo.address" required>
+
+                    <input type="hidden" name="contactNumber" class="form-control" #contactNumber="ngModel"
+                        [(ngModel)]="userInfo.contactNumber" required>
+
+                    <input type="hidden" name="nationality" class="form-control" #nationality="ngModel"
+                        [(ngModel)]="userInfo.nationality" required>
+
+                    <input type="hidden" name="checkInDate" class="form-control" #checkInDate="ngModel"
+                        [(ngModel)]="dateInfo.checkInDate" required>
+
+                    <input type="hidden" name="checkOutDate" class="form-control" #checkOutDate="ngModel"
+                        [(ngModel)]="dateInfo.checkOutDate" required>
+
+                    <div class="form-group">
+                        <label for="bookingAmount" style="text-align: center;">
+                            Your Total Bill :{{hotelService.totalBill}}
+                        </label>
+                        <input type="hidden" name="bookingAmount" class="form-control" #bookingAmount="ngModel"
+                            [(ngModel)]="hotelService.totalBill" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Full name (on the card)</label>
+                        <input type="text" class="form-control" name="username" ngModel #username='ngModel'
+                            placeholder="Enter name" required pattern="^([a-zA-Z]+[\s]+[a-zA-Z]*)$">
+                        <div *ngIf='username.touched && username.invalid'>
+                            <p class="text-danger" *ngIf='username.errors.required'>
+                                *This field is mandatory
+                            </p>
+                            <p class="text-danger" *ngIf='username.errors.pattern'>
+                                *Enter valid name and surname (eg.John Smith)</p>
+                        </div>
+                    </div> <!-- form-group.// -->
+
+                    <div class="form-group">
+                        <label for="cardNumber">Card number</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="cardNumber" ngModel #cardNumber='ngModel'
+                                placeholder="Enter Card Number" required pattern="[0-9]{16}">
+                            <div class="input-group-append">
+                                <span class="input-group-text text-muted">
+                                    <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-amex"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                </span>
+                            </div>
+                            <div *ngIf='cardNumber.touched && cardNumber.invalid'>
+                                <p class="text-danger" *ngIf='cardNumber.errors.required'>
+                                    *This field is mandatory
+                                </p>
+                                <p class="text-danger" *ngIf='cardNumber.errors.pattern'>
+                                    *Please Enter 16 Digit Card NUmber
+                                </p>
+                            </div>
+                        </div>
+                    </div> <!-- form-group.// -->
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label><span class="hidden-xs">Expiration</span> </label>
+                         
+                                    <input type="date" name="expirationDate" class="form-control" placeholder="Enter Date Heree"
+                                        #expirationDate="ngModel" [min]="todaysDate" ngModel required>
+                                       
+                                    <div *ngIf='expirationDate.touched && expirationDate.invalid'>
+                                        
+                                        <p class="text-danger" *ngIf='expirationDate.errors.required'>
+                               
+                                            *This field is mandatory
+                                        </p>
+
+                                    </div>
+                            
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label data-toggle="tooltip" title=""
+                                    data-original-title="3 digits code on back side of the card">CVV <i
+                                        class="fa fa-question-circle"></i></label>
+                                <input type="text" class="form-control" #cvv='ngModel' name="cvv" ngModel required
+                                    pattern="[0-9]{3}">
+                                <div *ngIf='cvv.touched && cvv.invalid'>
+                                    <p class="text-danger" *ngIf='cvv.errors.required'>
+                                        *This field is mandatory
+                                    </p>
+                                    <p class="text-danger" *ngIf='cvv.errors.pattern'>
+                                        *Please Enter 3 digit CVV Number
+                                    </p>
+                                </div>
+                            </div> <!-- form-group.// -->
+                        </div>
+                        
+                    </div> <!-- row.// -->
+                    <div class="text-danger" *ngIf='roomBookingStatus'>
+                        {{roomBookingStatus}}
+                    </div>
+                    <div class="btn-group float-right">
+                        <button class="btn btn-outline-dark" type="reset">
+                            Reset
+                        </button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-outline-dark" type="submit" [disabled]='bookUserRoom.invalid'>
+                            Pay
+                        </button>
+                    </div>
+                    
+                </form>
+            </div> <!-- tab-pane.// -->
+        </div>
+    
+
+    </div>
+</div>

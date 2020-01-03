@@ -1,0 +1,131 @@
+<div class="col-md-6 offset-md-3 mt-5 card card-body border border-dark" *ngIf="roomInfoForUpdate">
+    <h4 class="text-center">
+        Update Room
+    </h4>
+    <hr>
+    <form #updateRoom='ngForm' (ngSubmit)='updateRoomInfo(updateRoom)'>
+        <input type="hidden" name="roomId" #roomId='ngModel' [(ngModel)]='roomInfoForUpdate.roomId'>
+        <input type="hidden" name="hotelId" #hotelId='ngModel' [(ngModel)]='roomInfoForUpdate.hotelId'>
+
+        <input type="hidden" name="hotelName" class="form-control" #hotelName="ngModel" ngModel
+            [(ngModel)]="roomInfoForUpdate.hotelName">
+
+
+        <input type="hidden" name="licenceNumber" class="form-control" #licenceNumber="ngModel" ngModel
+            [(ngModel)]="roomInfoForUpdate.licenceNumber">
+
+        <div class="row">
+            <div class="col">
+
+                <div class="form-group">
+                    <label for="roomCount">
+                        Room Count:
+                    </label>
+                    <input type="number" name="roomCount" class="form-control" #roomCount="ngModel" ngModel
+                         [(ngModel)]="roomInfoForUpdate.roomCount" pattern="^[1-9]\d*$">
+                    <div *ngIf='roomCount.touched && roomCount.invalid'>
+
+                        <p class="text-danger" *ngIf='roomCount.errors.pattern'>
+                            *This field accept only numbers
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="roomType">
+                        Room Type:
+                    </label>
+                    <select name="roomType" class="form-control" #roomType="ngModel" [(ngModel)]="roomInfoForUpdate.roomType" required>
+                        
+                        <option value="AC">AC</option>
+                        <option value="Non AC">Non AC</option>
+                    </select>
+                    <!-- <input type="text" name="roomType" class="form-control" #roomType="ngModel" ngModel
+                        [(ngModel)]="roomInfoForUpdate.roomType"> -->
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <div class="form-group">
+                    <label for="roomCapacity">
+                        Room Capacity:
+                    </label>
+                    <select name="roomCapacity" class="form-control" #roomCapacity="ngModel"  [(ngModel)]="roomInfoForUpdate.roomCapacity" required>
+                       
+                        <option value="singleBed">Single Bed</option>
+                        <option value="Double bed">Double Bed</option>
+                    </select>
+                    <!-- <input type="text" name="roomCapacity" class="form-control" #roomCapacity="ngModel" ngModel
+                        [(ngModel)]="roomInfoForUpdate.roomCapacity"> -->
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="roomAmount">
+                        Room Amount:
+                    </label>
+                    <input type="number" name="roomAmount" class="form-control" #roomAmount="ngModel" ngModel
+                      pattern="^[1-9]\d*(\.\d+)?$"
+                        [(ngModel)]="roomInfoForUpdate.roomAmount">
+                    <div *ngIf='roomAmount.touched && roomAmount.invalid'>
+                        <p class="text-danger" *ngIf='roomAmount.errors.pattern'>
+                            *This field contains only number
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="roomStatus">
+                        Room Status:
+                    </label>
+                    <select name="roomStatus" class="form-control" #roomStatus="ngModel" [(ngModel)]="roomInfoForUpdate.roomStatus" required>
+                        
+                        <option value="Available">Available</option>
+                        <option value="Not Available">Not Available</option>
+                    </select>
+
+                    <!-- <input type="text" name="roomStatus" class="form-control" #roomStatus="ngModel" ngModel
+                        [(ngModel)]="roomInfoForUpdate.roomStatus"> -->
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="roomImageURL">
+                        Room ImageURL:
+                    </label>
+                    <input type="text" name="roomImageURL" class="form-control" #roomImageURL="ngModel" ngModel
+                        [(ngModel)]="roomInfoForUpdate.roomImageURL"
+                        pattern="(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|jpeg)">
+                    <div *ngIf='roomImageURL.touched && roomImageURL.invalid'>
+                        <p class="text-danger" *ngIf='roomImageURL.errors.pattern'>
+                            *This field only accept jpg ,gif ,png or jpeg format
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="btn-group float-right">
+            <button class="btn btn-outline-dark" type="reset">
+                Reset
+            </button>
+            &nbsp;&nbsp;
+            <button class="btn btn-outline-dark" type="submit" [disabled]='updateRoom.invalid'>
+                Update
+            </button>
+        </div>
+
+    </form>
+</div>

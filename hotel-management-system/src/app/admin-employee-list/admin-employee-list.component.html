@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Hotel Name</th>
+                <th>Licence Number</th>
+                <th>name</th>
+                <th>email</th>
+                <th>address</th>
+                <th>contactNumber</th>
+                <th>Delete</th>
+                <th>Update</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let employee of employeeList'>
+                <td>{{employee.hotelName}}</td>
+                <td>{{employee.licenceNumber}}</td>
+                <td>{{employee.name}}</td>
+                <td>{{employee.email}}</td>
+                <td>{{employee.address}}</td>
+                <td>{{employee.contactNumber}}</td>
+                <td>
+                    <button class="btn btn-outline-danger" (click)="deleteEmployeeInfo(employee)">
+                        Delete
+                    </button>
+                </td>
+                <td>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                        data-target="#exampleModal" (click)="selectEmployee(employee)">
+                        Update
+                    </button>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>

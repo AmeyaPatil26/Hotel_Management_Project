@@ -1,0 +1,33 @@
+<div class="container mt-5">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Booking Amount</th>
+                <th>Hotel  Name</th>
+                <th>Room Type</th>
+                
+                <th>name</th>
+              
+                <th>contactNumber</th>
+              
+                <th>checkInDate</th>
+                <th>checkOutDate</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let booking of bookingList'>
+                <td>{{booking.bookingAmount}}</td>
+            
+                <td>{{booking.hotelName}}</td>
+                <td>{{booking.roomType}}</td>
+          
+                <td>{{booking.name}}</td>
+           
+                <td>{{booking.contactNumber}}</td>
+               
+               <td>{{booking.checkInDate}}</td>
+               <td>{{booking.checkOutDate}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

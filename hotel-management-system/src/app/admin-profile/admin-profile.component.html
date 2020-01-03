@@ -1,0 +1,109 @@
+<div class="col-md-4 offset-md-4 mt-5 card card-body border border-dark" *ngIf="singleUsers">
+    <h4 class="text-center">
+        Profile
+    </h4>
+    <hr>
+    <div>
+        <div>
+            <div class="form-group">
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-dark text-light">
+                            Name
+                        </span>
+                    </div>
+                    <span class="input-group-text bg-light text-dark form-control">
+                        {{name}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-dark text-light">
+                            Email
+                        </span>
+                    </div>
+                    <span class="input-group-text bg-light text-dark form-control">
+                        {{email}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-dark text-light">
+                            Mobile no
+                        </span>
+                    </div>
+                    <span class="input-group-text bg-light text-dark form-control">
+                        {{contactNumber}}
+                    </span>
+                </div>
+
+
+            </div>
+
+            <!-- <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-dark text-light">
+                            Password
+                        </span>
+                    </div>
+                    <span class="input-group-text bg-light text-dark form-control">
+                        {{password}}
+                    </span>
+                </div>
+
+
+            </div> -->
+
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-dark text-light">
+                            Address
+                        </span>
+                    </div>
+                    <span class="input-group-text bg-light text-dark form-control">
+                        {{address}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-dark text-light">
+                            Nationality
+                        </span>
+                    </div>
+                    <span class="input-group-text bg-light text-dark form-control">
+                        {{nationality}}
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- <button class="btn btn-outline-dark float-right" type="submit">
+                Update
+            </button> -->
+
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-dark float-right" data-toggle="modal"
+                data-target="#exampleModal"  (click)="selectProfile()">
+                Update
+            </button>
+
+
+
+
+        </div>
+    </div>
+</div>
